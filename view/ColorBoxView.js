@@ -3,7 +3,7 @@ function ColorBoxView (colorCounterList, parentElem) {
     var box = document.createElement('div');
     
     colorCounterList.forEach(counter => {
-      counter.addActionOnUpdate(() => {
+      counter.on('update', () => {
         box.style.backgroundColor = counter.get('color');
       });
     });

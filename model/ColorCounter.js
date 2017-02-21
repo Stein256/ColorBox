@@ -3,11 +3,11 @@ function ColorCounter (colorName, color, count) {
     colorName: colorName,
     color: color,
     count: count || 0
-  }, actions = [];
+  }, events = {};
 	
 	this.countIncrement = function () {
     values.count++;
-    makeActions();
+    this.trigger('update');
 	};
 	
 	this.toJSON = function () {
@@ -22,13 +22,20 @@ function ColorCounter (colorName, color, count) {
     return values[prop];
   };
   
-  this.addActionOnUpdate = function (func) {
-    actions.push(func);
+  this.on = function (eventType, func) {
+    var handlers = events[eventType];
+    if (!handlers) {
+      handlers = events[eventType] = [];
+    }
+    handlers.push(func);
   };
-	
-  function makeActions () {
-    actions.forEach(func => func());
-  }
+  
+  this.trigger = function (eventType) {
+    var handlers = events[eventType];
+    if (handlers) {
+      handlers.forEach(func => func.call(this));
+    }
+  };
   
 	return this;
 }

@@ -6,7 +6,7 @@ function ColorCountersView (colorCounterList, parentElem) {
       var counterElem = document.createElement('div');
       counterElem.innerHTML = counter.get('colorName') + ': ' + counter.get('count');
       
-      counter.addActionOnUpdate(() => {
+      counter.on('update', () => {
         counterElem.innerHTML = counter.get('colorName') + ': ' + counter.get('count');
       });
       
